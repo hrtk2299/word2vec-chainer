@@ -20,12 +20,12 @@ python word2vec_train.py all-sentences.txt
 
 *** #3
 #+BEGIN_SRC bash
-python search_similarity_words.py word2vec.npz, all-words.txt
+python search_similarity_words.py word2vec.npz all-words.txt
 #+END_SRC
 
 *** #4
 #+BEGIN_SRC bash
-python word_visualize.py word2vec.npz, all-words.txt
+python word_visualize.py word2vec.npz all-words.txt
 #+END_SRC
 
 [[https://github.com/hrtk2299/word2vec-chainer/blob/master/fig/word_embeding.png]]
