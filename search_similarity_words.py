@@ -17,9 +17,9 @@ def main():
     args = parser.parse_args()
 
     model_filepath = args.word2vec_model
-    index2word = load_wordidmap(args.wordidmap_filepath)
+    index2word, _ = load_wordidmap(args.wordidmap_filepath)
     n_vocab = len(index2word)
-    word2index = {word: idx for idx, word in index2word.items()}
+    word2index = {word: idx for idx, word, in index2word.items()}
     word2vec = ContinuousBoW(n_vocab, 100)
     chainer.serializers.load_npz(model_filepath, word2vec)
 
