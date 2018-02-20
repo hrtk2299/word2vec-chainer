@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import argparse
 
+import numpy as np
 import chainer
+from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
@@ -14,20 +16,25 @@ def main():
     parser.add_argument('word2vec_model', type=str, help='word2vec model file in npz format')
     parser.add_argument('wordidmap_filepath', type=str, help='A word-ID map filepath.')
 
-    n_plotlabel = 2000
+    n_plotlabel = 1000
 
     args = parser.parse_args()
 
     model_filepath = args.word2vec_model
-    index2word = load_wordidmap(args.wordidmap_filepath)
+    index2word, freq_id_list = load_wordidmap(args.wordidmap_filepath)
     n_vocab = len(index2word)
+    sorted_id = np.argsort(freq_id_list)[::-1]
 
     word2vec = ContinuousBoW(n_vocab, 100)
     chainer.serializers.load_npz(model_filepath, word2vec)
 
-    word_vectors = word2vec.embed.W.data[:n_plotlabel]
-    label = [index2word[i] for i in range(n_plotlabel)]
-    transformed_data = TSNE(n_components=2).fit_transform(word_vectors)
+    word_vectors = word2vec.embed.W.data[sorted_id]
+
+    transformed_data = PCA(n_components=10).fit_transform(word_vectors)
+    transformed_data = TSNE(n_components=2, perplexity=30).fit_transform(transformed_data)
+
+    label = [index2word[i] for i in sorted_id[:n_plotlabel]]
+    transformed_data = transformed_data[:n_plotlabel]
 
     plt.figure(figsize=(10, 8))
 

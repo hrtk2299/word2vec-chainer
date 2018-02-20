@@ -11,7 +11,7 @@ from chainer import training
 from chainer.training import extensions
 
 from continuous_bow import ContinuousBoW
-from utility import load_wordid_text_file
+from utility import load_wordid_text
 
 
 class WindowIterator(chainer.dataset.Iterator):
@@ -89,7 +89,7 @@ def main():
     batch_size = args.batchsize
     window = 5
 
-    dataset = load_wordid_text_file(args.wordid_text_filepath)
+    dataset = load_wordid_text(args.wordid_text_filepath)
     # dataset, word2index = create_id_dataset(f, end_symbol=".")
 
     train_iter = WindowIterator(dataset, window, batch_size, repeat=True)

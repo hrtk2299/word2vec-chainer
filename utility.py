@@ -28,10 +28,11 @@ def load_wordid_text(wordid_text_filepath):
 
 def load_wordidmap(wordidmap_filepath):
     index2word = {}
-
+    freq_id_list = []
     with open(wordidmap_filepath, 'r') as f:
         for line in f:
-            idx_str, word = line.strip().split(',')
+            idx_str, word, count = line.strip().split(',')
             index2word[int(idx_str)] = word
+            freq_id_list.append(int(count))
 
-    return index2word
+    return index2word, freq_id_list

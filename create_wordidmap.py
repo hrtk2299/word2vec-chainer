@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 from utility import create_id_dataset
-
+from collections import Counter
 
 def main():
     """
@@ -21,9 +21,11 @@ def main():
     with open(text_filepath, "r") as f:
         id_dataset, word2index = create_id_dataset(f, end_symbol)
 
+    word_counter = Counter(id_dataset)
+
     with open("all-words.txt", "w") as f:
-        for item in word2index.items():
-            f.write(f"{item[1]},{item[0]}\n")
+        for word, idx in word2index.items():
+            f.write(f"{idx},{word},{word_counter[idx]}\n")
     print("output: all-words.txt")
 
     index_list = []
